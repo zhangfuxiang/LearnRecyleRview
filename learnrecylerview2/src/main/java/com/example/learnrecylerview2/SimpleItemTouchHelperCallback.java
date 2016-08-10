@@ -7,7 +7,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
  * Project:LearnRecyleRview
  * Created by Fuxiang.Zhang
  * Time: 2016/8/10 14:08
- * Describe:
+ * Describe:定义和继承ItemTouchHelper.Callback类
  */
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
