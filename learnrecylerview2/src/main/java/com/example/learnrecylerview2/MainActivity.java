@@ -1,6 +1,8 @@
 package com.example.learnrecylerview2;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +17,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import static android.R.color.*;
+import static android.R.color.holo_blue_dark;
+import static android.R.color.holo_blue_light;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private MyAdapter myAdapter;
@@ -25,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab,fab1;
     private int count=40;
     private ItemTouchHelper itemTouchHelper;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +67,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab1.setOnClickListener(this);
 
         fab.setOnClickListener(this);
-
+//      设置下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(this);
+//      设置刷新变换演示
+        swipeRefreshLayout.setColorScheme(holo_blue_bright,
+                holo_green_light,
+                holo_orange_light,
+                holo_red_light);
 
     }
 
@@ -84,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         layoutManager=new LinearLayoutManager(this);
         ItemTouchHelper.Callback callback=new SimpleItemTouchHelperCallback(myAdapter);
         itemTouchHelper=new ItemTouchHelper(callback);
+        swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.swipe_container);
     }
 
     @Override
@@ -96,5 +110,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 myAdapter.removeData(0);
                 break;
         }
+    }
+    /*刷新事件处理*/
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        }, 2000);
+
     }
 }
